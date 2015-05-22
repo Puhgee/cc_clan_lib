@@ -1,0 +1,69 @@
+def move_x_way_to(target, x):
+    x_move = (target.pos.x - self.pos.x)/x
+    y_move = (target.pos.y - self.pos.y)/x
+    self.moveXY(self.pos.x + x_move, self.pos.y + y_move)
+
+def health_critical(portion):
+    #portion gives the share 
+    if self.health < self.maxHealth / portion:
+        return True
+    else:
+        return False
+ 
+def attack_strategy(enemy_type):
+    enemies = self.findByType(enemy_type)
+    enemy = self.findNearest(enemies)  
+    if len(enemies) > 1:
+        self.attack(enemy)
+    elif len(enemies) == 1:
+        if health_critical(3) and item:
+            move_x_way_to(item, 3)
+        else:
+            move_x_way_to(enemy, 4)
+    
+        
+def enemy_with_min_health(enemies):
+    min_health = min([i.health for i in enemies])  
+    for enemy in enemies:
+        if min_health == enemy.health:
+            return enemy
+
+def enemy_with_max_health(enemies):
+    max_health = max([i.health for i in enemies])  
+    for enemy in enemies:
+        if max_health == enemy.health:
+            return enemy
+
+def enemy_with_highest_damage(enemies):
+    max_damage = max([i.attackDamage for i in enemies])
+    for enemy in enemies:
+        if max_damage == enemy.attackDamage:
+            return enemy
+        
+   
+def enemy_with_highest_damage_to_health_ratio(enemies):
+    max_ratio = max([float(i.attackDamage)/i.health for i in enemies])
+    for enemy in enemies:
+        if max_ratio == float(enemy.attackDamage)/enemy.health:
+            return enemy
+
+def enemies_within_radius(r):
+    return [i for i in self.findEnemies() if self.distanceTo(i) < r]        
+    
+ 
+def relative_pos(obj, x_shift, y_shift):
+    return {'x': obj.pos.x + x_shift, 'y': obj.pos.y + y_shift} 
+     
+
+
+        
+
+
+   
+        
+    
+   
+     
+
+
+        
