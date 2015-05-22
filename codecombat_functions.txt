@@ -1,64 +1,82 @@
-def move_x_way_to(target, x):
+def move_x_way_to(target, x, max_len):
     x_move = (target.pos.x - self.pos.x)/x
     y_move = (target.pos.y - self.pos.y)/x
+    if x_move**2 + y_move**2 > max_len**2:
+        x_move = x_move / (x_move**2 + y_move**2 ) * max_len**2
+        y_move = x_move / (x_move**2 + y_move**2 ) * max_len**2
     self.moveXY(self.pos.x + x_move, self.pos.y + y_move)
 
+def kill_close(enemies, hits):
+    #kills enemies within a radius, and according to hits necessary
+    enemies = within_radius(enemies, self.attackRange)
+    enemies = by_hits_to_kill(enemies, 1)
+    enemy = highest_damage_to_health_ratio(enemies)
+    attack_till_death(self, enemy)
+	
 def health_critical(portion):
     #portion gives the share 
     if self.health < self.maxHealth / portion:
         return True
     else:
         return False
- 
-def attack_strategy(enemy_type):
-    enemies = self.findByType(enemy_type)
-    enemy = self.findNearest(enemies)  
-    if len(enemies) > 1:
-        self.attack(enemy)
-    elif len(enemies) == 1:
-        if health_critical(3) and item:
-            move_x_way_to(item, 3)
-        else:
-            move_x_way_to(enemy, 4)
     
         
-def enemy_with_min_health(enemies):
-    min_health = min([i.health for i in enemies])  
-    for enemy in enemies:
-        if min_health == enemy.health:
-            return enemy
+def min_health(objects):
+	# return the object with lowest health of passed """
+    min_health = min([i.health for i in objects])  
+    for obj in objects:
+        if min_health == obj.health:
+            return obj
 
-def enemy_with_max_health(enemies):
-    max_health = max([i.health for i in enemies])  
-    for enemy in enemies:
-        if max_health == enemy.health:
-            return enemy
+def max_health(objects):
+	# return the object with highest health of passed """
+    max_health = max([i.health for i in objects])  
+    for obj in objects:
+        if max_health == obj.health:
+            return obj
 
-def enemy_with_highest_damage(enemies):
-    max_damage = max([i.attackDamage for i in enemies])
-    for enemy in enemies:
-        if max_damage == enemy.attackDamage:
-            return enemy
-        
-   
-def enemy_with_highest_damage_to_health_ratio(enemies):
-    max_ratio = max([float(i.attackDamage)/i.health for i in enemies])
-    for enemy in enemies:
-        if max_ratio == float(enemy.attackDamage)/enemy.health:
-            return enemy
+def highest_damage(objects):
+    max_damage = max([i.attackDamage for i in objects])
+    for obj in objects:
+        if max_damage == obj.attackDamage:
+            return obj
+          
+def highest_damage_times_health(objects):
+    max_ratio = max([float(i.attackDamage)*i.health for i in objects])
+    for obj in objects:
+        if max_ratio == float(obj.attackDamage)*obj.health:
+            return obj
 
-def enemies_within_radius(r):
-    return [i for i in self.findEnemies() if self.distanceTo(i) < r]        
+def within_radius(objects, r):
+    return [i for i in objects if self.distanceTo(i) < r]        
     
  
 def relative_pos(obj, x_shift, y_shift):
     return {'x': obj.pos.x + x_shift, 'y': obj.pos.y + y_shift} 
      
+def attack_till_death(obj, enemy):
+	while enemy.health > 0:
+		cleave_x_enemies_in_range(x)
+		obj.attack(enemy)
+		
+def cleave_x_enemies_in_range(x):
+    close_enemies = within_radius(self.findEnemies(), 10)
+    if len(close_enemies) > x and self.isReady("cleave"):
+        enemy = self.findNearest(close_enemies)
+        self.cleave(enemy)
 
+def coins_above_value(val):
+    return [coin for coin in self.findItems() if coin.value > val]        
 
-        
+def by_hits_to_kill(enemies, hits):
+    return [enemy for enemy in enemies if self.attackDamage > enemy.health]
 
-
+def move_and_kill_on_the_way(target, x, max_len, hits):
+	if self.distanceTo(target) < self.attackRange:
+            attack_till_death(self, target)
+        else:
+            move_x_way_to(target, x, max_len)
+            kill_close(enemies, hits)	
    
         
     
